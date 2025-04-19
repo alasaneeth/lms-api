@@ -19,6 +19,7 @@ const login = async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await User.findByUserName(username);
+    console.log(user)
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.status(200).json({ token });
