@@ -1,14 +1,18 @@
 const express = require('express');
 const { register, login } = require('../controllers/authController');
 const {studentRegister} = require('../controllers/studentController');
+const {tutorRegister} = require("../controllers/tutorController")
+
 const authenticateToken = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
 router.post('/register', register);
 router.post('/login', login);
-//router.post('/student-register',studentRegister)
+
 router.post('/student-register', authenticateToken, studentRegister);
+router.post('/tutor-register',authenticateToken,tutorRegister)
+
 
 
 // Protected route example
