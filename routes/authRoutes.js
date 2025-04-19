@@ -7,11 +7,15 @@ const router = express.Router();
 
 router.post('/register', register);
 router.post('/login', login);
-router.post('/student-register',studentRegister)
+//router.post('/student-register',studentRegister)
+router.post('/student-register', authenticateToken, studentRegister);
+
 
 // Protected route example
-router.get('/protected', authenticateToken, (req, res) => {
-  res.status(200).json({ message: 'This is a protected route', user: req.user });
-});
+// router.get('/protected', authenticateToken, (req, res) => {
+//   res.status(200).json({ message: 'This is a protected route', user: req.user });
+// });
+
+
 
 module.exports = router;
