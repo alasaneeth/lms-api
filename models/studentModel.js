@@ -9,6 +9,10 @@ const Student = {
                     
                     return result;
   },
+  getAll : async()=> {
+    const [students]= await db.execute('SELECT * FROM students');
+    return students;
+  }
 };
 
 module.exports = Student;

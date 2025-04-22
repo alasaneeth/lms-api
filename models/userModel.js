@@ -10,7 +10,8 @@ const User = {
     const hashedPassword = await bcrypt.hash(password, 10);
     const [result] = await db.execute('INSERT INTO users (username, password,userRole,userId) VALUES (?, ?,?,?)', [username, hashedPassword,userRole,userId]);
     return result.insertId;
-  },
+  }
+ 
 };
 
 module.exports = User;

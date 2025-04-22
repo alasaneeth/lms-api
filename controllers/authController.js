@@ -22,7 +22,9 @@ const login = async (req, res) => {
     console.log(user)
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      res.status(200).json({ token });
+            // Exclude sensitive info (like password) from response
+      const { username,userRole,userId } = user;
+      res.status(200).json({ token,username,userRole,userId });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
     }

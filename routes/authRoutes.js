@@ -1,6 +1,6 @@
 const express = require('express');
 const { register, login } = require('../controllers/authController');
-const {studentRegister} = require('../controllers/studentController');
+const {studentRegister,getAllStudents} = require('../controllers/studentController');
 const {tutorRegister} = require("../controllers/tutorController")
 
 const authenticateToken = require('../middlewares/authMiddleware');
@@ -10,8 +10,12 @@ const router = express.Router();
 router.post('/register', register);
 router.post('/login', login);
 
+//------------------Authorised Routes
 router.post('/student-register', authenticateToken, studentRegister);
+router.get('/get-all-students',authenticateToken,getAllStudents) 
 router.post('/tutor-register',authenticateToken,tutorRegister)
+
+//------------------End of authorised routes -------------------
 
 
 

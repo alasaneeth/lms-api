@@ -45,7 +45,15 @@ const studentRegister = async (req, res) => {
   }
 };
 
+const getAllStudents = async   (req,res) => {
+  try {
+    const students = await Student.getAll();
+    res.status(200).json(students); // Send the response back to the client
+
+  }catch(error){
+    console.error(error);
+  }
+}
 
 
-
-module.exports = { studentRegister };
+module.exports = { studentRegister,getAllStudents };
