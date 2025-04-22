@@ -45,15 +45,30 @@ const studentRegister = async (req, res) => {
   }
 };
 
-const getAllStudents = async   (req,res) => {
+const getAllStudents = async (req, res) => {
   try {
     const students = await Student.getAll();
-    res.status(200).json(students); // Send the response back to the client
 
-  }catch(error){
+    const formattedStudents = students.map(student => ({
+      ...student,
+      enrolmentDate: student.enrolmentDate 
+        ? new Date(student.enrolmentDate).toISOString().split('T')[0] 
+        : null,
+      widthrowelDate: student.widthrowelDate 
+        ? new Date(student.widthrowelDate).toISOString().split('T')[0] 
+        : null,
+      dob: student.dob 
+        ? new Date(student.dob).toISOString().split('T')[0] 
+        : null
+    }));
+
+    res.status(200).json(formattedStudents);
+  } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Error fetching students" });
   }
-}
+};
+
 
 
 module.exports = { studentRegister,getAllStudents };
