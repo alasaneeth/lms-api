@@ -15,9 +15,15 @@ const Student = {
                     return result;
   },
   getAll : async()=> {
-    const [students]= await db.execute('SELECT * FROM students');
+    const [students]= await db.execute('SELECT * FROM students ');
     return students;
+  },
+  
+  getById: async ({ id }) => {
+    const [students] = await db.execute('SELECT * FROM students WHERE id = ?', [id]);
+    return students[0]; // Return a single student object
   }
+  
 };
 
 module.exports = Student;

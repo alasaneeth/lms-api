@@ -71,8 +71,40 @@ const getAllStudents = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error fetching students" });
   }
+
+  
 };
 
 
+const getStudentById = async (req, res) => {
+    const { id } = req.params;
 
-module.exports = { studentRegister,getAllStudents };
+    try {
+      const student = await Student.getById({ id });
+
+      if (!student) {
+        return res.status(404).json({ message: 'Student not found' });
+      }
+
+      const formattedStudent = {
+        ...student,
+        enrolmentDate: student.enrolmentDate 
+          ? new Date(student.enrolmentDate).toISOString().split('T')[0] 
+          : null,
+        widthrowelDate: student.widthrowelDate 
+          ? new Date(student.widthrowelDate).toISOString().split('T')[0] 
+          : null,
+        dob: student.dob 
+          ? new Date(student.dob).toISOString().split('T')[0] 
+          : null
+      };
+  
+
+      res.status(200).json(formattedStudent);
+    } catch (error) {
+      console.error('Error fetching student by ID:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };
+
+module.exports = { studentRegister,getAllStudents,getStudentById };
