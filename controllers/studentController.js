@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const studentRegister = async (req, res) => {
   const {
+    studentId,
     fullName,
     gender,
     dob,
@@ -20,10 +21,9 @@ const studentRegister = async (req, res) => {
     userRole
   } = req.body;
 
-  //console.log('Request Body:', req.body);
-
   try {
     const student = await Student.create({
+      studentId,
       fullName,
       gender,
       dob,
@@ -36,14 +36,18 @@ const studentRegister = async (req, res) => {
     });
 
     const userId = student.insertId;
-    const user = await User.create(username, password ,userRole, userId);
+    console.log('Inserted Student ID:', userId);
 
-    res.status(201).json({"userId": user });
+    const user = await User.create(username, password, userRole, userId, null); // studentId is populated, tutorId is null
+    console.log('Created User:', user);
+
+    res.status(201).json({ userId: user });
   } catch (error) {
-    console.error(error);
+    console.error('Error creating user:', error);
     res.status(500).json({ message: 'Error creating user', error });
   }
 };
+
 
 const getAllStudents = async (req, res) => {
   try {

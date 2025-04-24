@@ -2,10 +2,15 @@ const db = require('../config/db');
 
 const Student = {
     
-  create: async ({ fullName, gender, dob, phone, email, address, status, enrolmentDate, widthrowelDate }) => {
+  create: async ({ studentId,fullName, gender, dob, phone, email, address, status, enrolmentDate, widthrowelDate }) => {
 
-    const [result] = await db.execute('INSERT INTO students (fullName, gender,dob,phone,email,address,status,enrolmentDate,widthrowelDate) VALUES (?,?,?,?,?,?,?,?,?)', 
-                    [fullName, gender,dob,phone,email,address,status,enrolmentDate,widthrowelDate]);
+       // Validate widthrowelDate
+       if (!widthrowelDate) {
+        widthrowelDate = null; // or set a default date if needed
+    }
+
+    const [result] = await db.execute('INSERT INTO students (studentId,fullName, gender,dob,phone,email,address,status,enrolmentDate,widthrowelDate) VALUES (?,?,?,?,?,?,?,?,?,?)', 
+                    [studentId,fullName, gender,dob,phone,email,address,status,enrolmentDate,widthrowelDate]);
                     
                     return result;
   },
