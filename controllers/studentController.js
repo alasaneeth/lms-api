@@ -100,7 +100,7 @@ const getStudentById = async (req, res) => {
       };
   
 
-      res.status(200).json(formattedStudent);
+      res.status(200).json({ student: formattedStudent });
     } catch (error) {
       console.error('Error fetching student by ID:', error);
       res.status(500).json({ message: 'Internal server error' });
