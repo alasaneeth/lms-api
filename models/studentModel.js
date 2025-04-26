@@ -15,7 +15,7 @@ const Student = {
                     return result;
   },
   getAll : async()=> {
-    const [students]= await db.execute('SELECT * FROM students ');
+    const [students]= await db.execute('SELECT * FROM students ORDER BY id DESC');
     return students;
   },
   
