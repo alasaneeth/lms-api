@@ -22,7 +22,26 @@ const Student = {
   getById: async ({ id }) => {
     const [students] = await db.execute('SELECT * FROM students WHERE id = ?', [id]);
     return students[0]; // Return a single student object
-  }
+  },
+
+  update: async ({ id, studentId, fullName, gender, dob, phone, email, address, status, enrolmentDate, widthrowelDate }) => {
+
+    if (!widthrowelDate) {
+        widthrowelDate = null; // optional fallback
+    }
+
+    const [result] = await db.execute(
+        `UPDATE students 
+         SET studentId = ?, fullName = ?, gender = ?, dob = ?, phone = ?, email = ?, address = ?, status = ?, enrolmentDate = ?, widthrowelDate = ?
+         WHERE id = ?`,
+        [studentId, fullName, gender, dob, phone, email, address, status, enrolmentDate, widthrowelDate, id]
+    );
+
+    return result;
+},
+
+
+
   
 };
 

@@ -107,4 +107,50 @@ const getStudentById = async (req, res) => {
     }
   };
 
-module.exports = { studentRegister,getAllStudents,getStudentById };
+  const updateStudent = async (req, res) => {
+    const { id } = req.params; // student ID from URL
+  
+    const {
+      studentId,
+      fullName,
+      gender,
+      dob,
+      phone,
+      email,
+      address,
+      status,
+      enrolmentDate,
+      widthrowelDate
+    } = req.body;
+  
+    try {
+      // Check if student exists
+      const existingStudent = await Student.getById({ id });
+  
+      if (!existingStudent) {
+        return res.status(404).json({ message: 'Student not found' });
+      }
+  
+      // Update student
+      const updatedStudent = await Student.update({
+        id,
+        studentId,
+        fullName,
+        gender,
+        dob,
+        phone,
+        email,
+        address,
+        status,
+        enrolmentDate,
+        widthrowelDate
+      });
+  
+      res.status(200).json({ message: 'Student updated successfully', updatedStudent });
+    } catch (error) {
+      console.error('Error updating student:', error);
+      res.status(500).json({ message: 'Internal server error', error });
+    }
+  };
+
+module.exports = { studentRegister,getAllStudents,getStudentById,updateStudent };
