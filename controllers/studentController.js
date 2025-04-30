@@ -157,7 +157,7 @@ const getStudentById = async (req, res) => {
     try {
       const query = req.params.key; 
       const students = await Student.search(query);
-      res.json(students);
+      res.json( {"students" : students});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Something went wrong' });
